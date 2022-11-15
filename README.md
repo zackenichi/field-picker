@@ -18,4 +18,4 @@ We can add a component that allows us to add more contacts or change company inf
 
 ### Live demo: 
 
-https://field-picker.vercel.app/
+https://field-picker-zackenichi.vercel.app/
