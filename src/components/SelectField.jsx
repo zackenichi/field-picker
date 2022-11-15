@@ -18,27 +18,27 @@ const SelectField = ({
       fields: [
         {
           fieldText: 'Full name',
-          code: 'contact.fullName',
+          code: 'contactFullName',
         },
         {
           fieldText: 'First name',
-          code: 'contact.firstName',
+          code: 'contactFirstName',
         },
         {
           fieldText: 'Last name',
-          code: 'contact.lastName',
+          code: 'contactLastName',
         },
         {
           fieldText: 'Associated company',
-          code: 'contact.companyName',
+          code: 'contactCompanyName',
         },
         {
           fieldText: 'Email address',
-          code: 'contact.email',
+          code: 'contactEmail',
         },
         {
           fieldText: 'Phone number',
-          code: 'contact.phone',
+          code: 'contactPhone',
         },
       ],
     },
@@ -48,23 +48,31 @@ const SelectField = ({
       fields: [
         {
           fieldText: 'Company name',
-          code: 'company.companyName',
+          code: 'companyCompanyName',
         },
         {
           fieldText: 'Company ABN',
-          code: 'company.abn',
+          code: 'companyAbn',
         },
         {
           fieldText: 'Company address',
-          code: 'company.address',
+          code: 'companyAddress',
         },
         {
           fieldText: 'Company email',
-          code: 'company.ownerEmail',
+          code: 'companyOwnerEmail',
         },
         {
           fieldText: 'Company owner name',
-          code: 'company.ownerName',
+          code: 'companyOwnerName',
+        },
+        {
+          fieldText: 'Company owner name first name',
+          code: 'companyOwnerFirstName',
+        },
+        {
+          fieldText: 'Company owner name last name',
+          code: 'companyOwnerLastName',
         },
       ],
     },
