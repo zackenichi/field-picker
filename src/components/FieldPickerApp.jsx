@@ -5,6 +5,7 @@ import GeneratedEmail from './GeneratedEmail';
 // import AppControls from './AppControls';
 
 const FieldPickerApp = () => {
+  // state for generated email - with fields replaced by simulated db data
   const [emailContent, setEmailContent] = React.useState();
 
   const handleGenerateEmail = (emailSubject, emailMessage, emailRecipient) => {
@@ -36,7 +37,6 @@ const FieldPickerApp = () => {
         {emailContent && emailContent.emailRecipient && (
           <GeneratedEmail emailContent={emailContent} />
         )}
-        {/* <GeneratedEmail /> */}
       </Grid>
     </Grid>
   );
