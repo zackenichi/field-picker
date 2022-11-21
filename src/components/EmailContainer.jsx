@@ -16,6 +16,7 @@ import getRandomIndex from '../utils/randomUtils';
 import contacts from '../data/contactDatabase';
 import companies from '../data/companyDatabase';
 import { regexReplaceTextFunction } from '../utils/RegExUtils';
+import DisplayFields from './DisplayFields';
 
 const EmailContainer = ({ handleGenerateEmail }) => {
   // value: body or subject - should be enum in typescript
@@ -23,6 +24,12 @@ const EmailContainer = ({ handleGenerateEmail }) => {
   // select field function adds contact/company fields
   // which will be processed by regex to have dynamic emails sent
   const [selectedField, setSelectedField] = React.useState('');
+
+  // toggling display dynamic field names
+  const [displayFields, setDisplayFields] = React.useState(false);
+
+  // the dynamic fields
+  const [dynamicFieldsArray, setDynamicFieldsArray] = React.useState([]);
 
   // detecting which index of string we are in
   const subjectInputRef = React.useRef();
@@ -54,6 +61,14 @@ const EmailContainer = ({ handleGenerateEmail }) => {
     };
   }, []);
 
+  // for demo only - dyamic field list resets when
+  // email text changes
+  React.useEffect(() => {
+    if (subjectText || bodyText) {
+      setDisplayFields(false);
+    }
+  }, [bodyText, subjectText]);
+
   // detecting which index of string we are in
 
   const updateSelectionStart = (selected) => {
@@ -83,6 +98,7 @@ const EmailContainer = ({ handleGenerateEmail }) => {
     setBodyText('');
     setSelectedField('');
     handleResetEmail();
+    setDisplayFields(false);
   };
 
   // fields
@@ -243,6 +259,22 @@ const EmailContainer = ({ handleGenerateEmail }) => {
     }
   };
 
+  const handleToggleFields = () => {
+    const emailContent = subjectText + ' ' + bodyText;
+
+    var re = /(?:^|\W){{(\w+)(?!\w)/g,
+      match,
+      matches = [];
+
+    while ((match = re.exec(emailContent))) {
+      matches.push(match[1]);
+    }
+
+    setDynamicFieldsArray(matches);
+
+    setDisplayFields((showFields) => !showFields);
+  };
+
   return (
     <ClickAwayListener onClickAway={() => setSelectedField('')}>
       <Grid container spacing={2} alignItems="center">
@@ -316,6 +348,15 @@ const EmailContainer = ({ handleGenerateEmail }) => {
 
         {/* send button simulates the emails that contacts would see */}
         <Grid item xs={12} textAlign="right">
+          <Button
+            disabled={!subjectText && !bodyText}
+            variant="outlined"
+            sx={{ marginRight: '10px' }}
+            onClick={handleToggleFields}
+          >
+            {displayFields ? 'Hide' : 'Display'} Fields
+          </Button>
+
           <Tooltip title="Clears email template">
             <Button
               variant="outlined"
@@ -345,6 +386,12 @@ const EmailContainer = ({ handleGenerateEmail }) => {
           handleCloseSelectField={handleCloseSelectField}
           addDynamicField={addDynamicField}
         />
+        {/* displays fields for mapping db data */}
+        {displayFields && (
+          <Grid item xs={12}>
+            <DisplayFields dynamicFieldsArray={dynamicFieldsArray} />
+          </Grid>
+        )}
       </Grid>
     </ClickAwayListener>
   );
