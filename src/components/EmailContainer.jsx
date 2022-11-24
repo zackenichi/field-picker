@@ -17,6 +17,7 @@ import contacts from '../data/contactDatabase';
 import companies from '../data/companyDatabase';
 import { regexReplaceTextFunction } from '../utils/RegExUtils';
 import DisplayFields from './DisplayFields';
+import { removeDuplicates } from '../utils/StringUtils';
 
 const EmailContainer = ({ handleGenerateEmail }) => {
   // value: body or subject - should be enum in typescript
@@ -260,17 +261,40 @@ const EmailContainer = ({ handleGenerateEmail }) => {
   };
 
   const handleToggleFields = () => {
+    // the input
     const emailContent = subjectText + ' ' + bodyText;
 
-    var re = /(?:^|\W){{(\w+)(?!\w)/g,
-      match,
-      matches = [];
+    // todo: get all words starting with {{
 
-    while ((match = re.exec(emailContent))) {
-      matches.push(match[1]);
-    }
+    // solution 1 - problem: need to remove while loop assignment
 
-    setDynamicFieldsArray(matches);
+    // var re = /(?:^|\W){{(\w+)(?!\w)/g,
+    //   match,
+    //   matches = [];
+
+    // while ((match = re.exec(emailContent))) {
+    //   matches.push(match[1]);
+    // }
+
+    // solution 2 - problem: has a space and {{ in result
+
+    const regexp = /(?:^|\W){{(\w+)(?!\w)/g;
+
+    const matches = emailContent.match(regexp).filter(removeDuplicates);
+
+    // remove duplicates
+
+    // sliced since the matching result starts with ' {{'
+    // need another solution
+    const foundFields = matches.map((field) => {
+      return field.slice(3);
+    });
+
+    console.log(foundFields);
+
+    setDynamicFieldsArray(foundFields);
+
+    // solution 3
 
     setDisplayFields((showFields) => !showFields);
   };
